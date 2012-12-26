@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Website Name</title>
+	<!-- jQuery -->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>  
+	<!-- Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<!-- Select2 stuff -->
+	<link href="css/select2.css" rel="stylesheet" />
+	<script src="js/select2.js"></script>
+	<!-- Toggle buttons -->
+	<link href="css/bootstrap-toggle-buttons.css" rel="stylesheet" />
+	<script src="js/jquery.toggle.buttons.js"></script>
+	<!-- My stuff -->
+	<link href="css/weather.css" rel="stylesheet" />
+	<script src="js/weather.js"></script>
+	<script src="js/interface.js"></script>
+	<script>
+		$(document).ready(function() {
+			// Other countries
+			var otherCities = $("#otherCities");
+			for (var i = 0; i < cities.length; i++) {
+				var city = cities[i];
+				otherCities.append(
+					$("<option></option>").attr("value",city).text(city+' [' + data[city]['country']  + ']')
+				);
+			}
+			otherCities.select2();
+			otherCities.change( function() {
+				updateSortedList();
+			});
+			
+			// Sliders
+			$("#avgSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
+			$("#minSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
+			$("#maxSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
+			$("#pcpSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
+			
+			// Add countries dynamically
+			var primCountry = $("#primaryCountry");
+			primCountry.append($("<option></option>").attr('value','all').text('All countries'));
+			for (var c in countries) {
+				primCountry.append($("<option></option>").attr('value', c).text(countries[c]));
+			}
+			primCountry.select2();
+			primCountry.change( function() {
+				updateCities($("#primaryCity"), primCountry.val(), cities);
+			});
+			
+			// Start off with all cities
+			updateCities($("#primaryCity"), 'all', cities);
+			$("#primaryCity").select2();
+			$("#primaryCity").change( function() {
+				updateSortedList();
+			});
+			
+			// Buttons
+			$("#sim_btn").click(function() {
+				$("#specific").hide();
+				$("#similar1").show("fast");
+				$("#similar2").show("fast");
+			});
+			$("#comp_btn").click(function() {
+				$("#similar1").hide();
+				$("#similar2").hide();
+				$("#specific").show("fast");
+			});
+			$("#excludeSameCountry").toggleButtons({
+				onChange: function($el, status, e) { 
+					excludeSameCountry = status;
+					updateSortedList(); 
+				}
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div class="container">
+	
+	<div class="hero-unit" style="padding: 10px; padding-left: 20px">
+		<h1>Website Name</h1>
+		<p>Tagline?</p>
+	</div>
+	  
+	<div class="row">
+		<div class="row">
+			<div class="span6" style="text-align:center;">
+				<h2>1. Select a country</h2>
+				<select id="primaryCountry" style="width:300px"></select>
+			</div>
+			<div class="span6" style="text-align:center;">
+				<h2>2. Select a city</h2>
+				<select id="primaryCity" style="width:300px"></select><br>
+				<span style="font-size: 80%">(Start typing the name to search)</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12" style="text-align:center;">
+				<h3>What do you want to do next?</h3>
+			</div>
+		</div>
+		<div class="row" style="text-align:center;">
+			<div class="span6">
+				<button id="sim_btn" class="btn btn-large btn-primary" style="width:300px">Find similar cities</button>
+			</div>
+			<div class="span6">
+				<button id="comp_btn" class="btn btn-large btn-primary" style="width:300px">Compare with specific cities</button>
+			</div>
+		</div>
+		</div>
+	
+	<hr style="margin-bottom: 0px">
+	
+	<div class="row" id="similar1" style="display: none">
+		<div class="span6">
+			<h3>Set your weights:</h3>
+			<div class="row sliderRow">
+				<div class="span3">Average Temperature</div>
+				<div class="span3" style="padding-top: 8px"><div id="avgSlider"></div></div>
+			</div>
+			<div class="row sliderRow zebra">
+				<div class="span3">Maximum Temperature</div>
+				<div class="span3" style="padding-top: 8px"><div id="maxSlider"></div></div>
+			</div>
+			<div class="row sliderRow">
+				<div class="span3">Minimum Temperature</div>
+				<div class="span3" style="padding-top: 8px"><div id="minSlider"></div></div>
+			</div>
+			<div class="row sliderRow zebra">
+				<div class="span3">Precipitation</div>
+				<div class="span3" style="padding-top: 8px"><div id="pcpSlider"></div></div>
+			</div>
+			<div class="row sliderRow">
+				<div class="span3"><b>Options:</b></div>
+				<div class="span3">&nbsp;</div>
+			</div>
+			<div class="row sliderRow zebra">
+				<div class="span4">Exclude same country:</div>
+				<div class="span2">
+					<div id="excludeSameCountry"><input type="checkbox" checked="checked"></div>
+				</div>
+			</div>
+		</div>
+		<div class="span6">
+			<h3>Most similar cities:</h3>
+			<ol id="sortList">
+			</ol>
+		</div>
+	</div>
+	<hr style="margin-bottom: 0px">
+	<div class="row" id="similar2" style="display: none;">
+		<div class="span6">
+			<h3>Additional cities:</h3>
+			<select id="otherCities" style="width: 100%" multiple></select><br>
+			<span style="font-size: 80%">Enter multiple cities to see their "score"</span>
+		</div>
+		<div class="span6" style="margin-top: 20px">
+			<ol id="specificList"><li>nnn</li></ul>
+		</div>
+	</div>
+  
+	<div class="row" id="specific" style="display: none">
+		<div class="span6">
+			<h3>Select the cities you wish to compare with</h3>
+			<select id="otherCities" style="width: 100%" multiple></select><br>
+		</div>
+		<div class="span6">
+			<br>
+			<ol id="xyz"></ol>
+		</div>
+	</div>
+  <!--
+  <div class="footer">
+    <p>&copy; Iain Duning 2012 - <a href="http://www.iaindunning.com">http://www.iaindunning.com</a></p>
+  </div>
+	-->
+	</div> <!-- /container -->
+	
+	
+	
+	<!-- Scripts -->
+	<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
