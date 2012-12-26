@@ -1,0 +1,16 @@
+/* http://colorschemedesigner.com/#3N21Tw0w0w0w0 */
+
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.sliderRow {
+	vertical-align: middle;
+	height: 30px;
+	line-height: 30px;
+}
+
+.zebra {
+	background-color: #EEEEEE;
+}
