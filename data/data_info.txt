@@ -1,8 +1,29 @@
+NEW ZEALAND
+
 Data obtained from http://www.niwa.co.nz/education-and-training/schools/resources/climate
 
 nz_avgtemp.csv  - Mean Monthly Temperatures (°C) 1981-2010
+nz_humidity.csv - Mean relative humidity 1981-2010 
+                - "Mean of 9am relative humidity (%)"
 nz_maxtemp.csv  - Mean Daily Maximum Temperatures (°C) 1981-2010
 nz_mintemp.csv  - Mean Daily Minimum Temperatures (°C) 1981-2010
 nz_sunhours.csv - Mean Monthly Sunshine (hours) 1981-2010
 nz_raindays.csv - Mean Monthly Wet-Days 1981-2010
+                - "Wet Days - Mean Number Of Days per month With 1mm 
+                   Or More Of Rain"
 nz_rainfall.csv - Mean Monthly Rainfall (mm) 1981-2010
+
+
+
+USA
+
+Data obtained from http://ols.nndc.noaa.gov/plolstore/plsql/olstore.prodspecific?prodnum=C00095-PUB-A0001
+"Normals" for the 1971 - 2000 period
+
+us_avgtemp.txt  - Normal Daily Mean Temperature, Degrees F
+us_humidity.txt - Average Relative Humidity - Morning (M), Afternoon (A)
+us_maxtemp.txt  - Normal Daily Maximum Temperature, Degrees F
+us_mintemp.txt  - Normal Daily Minimum Temperature, Degrees F
+us_raindays.txt - Mean Number of Days with Precipitation 0.01 Inch or More
+us_rainfall.txt - Normal Precipitation, Inches
+us_sunperc.txt  - Sunshine - Average Percent of Possible
