@@ -20,9 +20,20 @@ def ReadNOAAFile(filename,field):
 
 def ReadNIWAFile(filename,field):
     f = open(filename,"r")
+    # Kill the first lines
+    r = f.readline()
+    r = f.readline()
+    r = f.readline()
+    r = f.readline()
+    r = f.readline()
+    r = f.readline()
     for line in f:
         s = line.split(",")
-        city = s[0].strip()
+        if line[0] == '"': # Hack for Antarctica
+            city = line.split('"')[1]
+            s = s[1:]
+        else:
+            city = s[0].strip()
         if city not in data: data[city] = {"country":"NZ"}
         monthFloat = [float(s[i]) for i in range(1,13)]
         data[city][field] = {"met":monthFloat}
@@ -34,10 +45,12 @@ ReadNOAAFile("us_max.txt","max")
 ReadNOAAFile("us_min.txt","min")
 ReadNOAAFile("us_pcp.txt","pcp")
 
-ReadNIWAFile("nz_avg.txt","avg")
-ReadNIWAFile("nz_max.txt","max")
-ReadNIWAFile("nz_min.txt","min")
-ReadNIWAFile("nz_pcp.txt","pcp")
+ReadNIWAFile("nz_avgtemp.csv","avg")
+ReadNIWAFile("nz_maxtemp.csv","max")
+ReadNIWAFile("nz_mintemp.csv","min")
+ReadNIWAFile("nz_raindays.csv","raindays")
+ReadNIWAFile("nz_rainfall.csv","rainfall")
+ReadNIWAFile("nz_sunhours.csv","sunhours")
 
 import json
 f = open("data.json","w")
