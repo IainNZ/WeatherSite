@@ -1,0 +1,8 @@
+Data obtained from http://www.niwa.co.nz/education-and-training/schools/resources/climate
+
+nz_avgtemp.csv  - Mean Monthly Temperatures (°C) 1981-2010
+nz_maxtemp.csv  - Mean Daily Maximum Temperatures (°C) 1981-2010
+nz_mintemp.csv  - Mean Daily Minimum Temperatures (°C) 1981-2010
+nz_sunhours.csv - Mean Monthly Sunshine (hours) 1981-2010
+nz_raindays.csv - Mean Monthly Wet-Days 1981-2010
+nz_rainfall.csv - Mean Monthly Rainfall (mm) 1981-2010

@@ -1,3 +1,9 @@
+Mean monthly rainfall (mm),,,,,,,,,,,,,
+Data are mean monthly values for the 1981-2010 period for locations having at least 5 complete years of data,,,,,,,,,,,,,
+Station details are available in separate table,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+LOCATION,JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,YEAR
+------------------------------,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,------
 Kaitaia,82.0,92.5,82.0,97.7,131.9,149.1,165.4,140.0,126.7,97.8,86.2,99.6,1349.2
 Whangarei,81.2,95.2,118.1,98.9,111.2,131.5,168.6,128.4,112.2,85.3,77.1,96.4,1317.7
 Auckland,73.3,66.1,87.3,99.4,112.6,126.4,145.1,118.4,105.1,100.2,85.8,92.8,1210.7
