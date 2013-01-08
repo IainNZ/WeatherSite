@@ -10,10 +10,21 @@ def ReadNOAAFile(filename,field):
         if firstLine:
             firstLine = False
             continue
-        city = string.capwords(line[5:38].strip()) # Normalize case
+        city = string.capwords(line[5:37].strip()) # Normalize case
         city = city[:-2] + city[-2:].upper() # Fix state
-        if city not in data: data[city] = {"country":"US"}
+
+        if city == "Havre, TX": city = "Havre, MT"
+        if city == "Austin/city, TX": city = "Austin, TX"
+
+        if city not in data:
+            if field=="avgtemp":
+                data[city] = {"country":"US"}
+            else:
+                print "Found city without avgtemp: ", city, "in", filename
+                continue
         months = line[43:].split()
+        for i in range(len(months)):
+            if months[i].strip() == "*": months[i] = "0"
         monthFloat = [float(months[i]) for i in range(12)]
         data[city][field] = {"imp":monthFloat}
     f.close()
@@ -40,14 +51,37 @@ def ReadNIWAFile(filename,field):
     f.close()
 
 
-ReadNOAAFile("us_avg.txt","avg")
-ReadNOAAFile("us_max.txt","max")
-ReadNOAAFile("us_min.txt","min")
-ReadNOAAFile("us_pcp.txt","pcp")
+ReadNOAAFile("us_avgtemp.txt","avgtemp")
+ReadNOAAFile("us_maxtemp.txt","maxtemp")
+ReadNOAAFile("us_mintemp.txt","mintemp")
+ReadNOAAFile("us_raindays.txt","raindays")
+ReadNOAAFile("us_rainfall.txt","rainfall")
+##ReadNOAAFile("us_sunperc.txt","sunperc")
+# Remove incomplete entries
+del data["Havre, MT"]
+del data["Grand Forks, ND"]
+del data["Austin/bergstrom, TX"]
+del data["Dallas-love Field, TX"]
 
-ReadNIWAFile("nz_avgtemp.csv","avg")
-ReadNIWAFile("nz_maxtemp.csv","max")
-ReadNIWAFile("nz_mintemp.csv","min")
+# Check every thing has all field
+for k in data:
+    allOK = True
+    if not ('avgtemp' in data[k]):
+        print k, "doesn't have avgtemp"
+    if not ('maxtemp' in data[k]):
+        print k, "doesn't have maxtemp"
+    if not ('mintemp' in data[k]):
+        print k, "doesn't have mintemp"
+    if not ('raindays' in data[k]):
+        print k, "doesn't have raindays"
+    if not ('rainfall' in data[k]):
+        print k, "doesn't have rainfall"
+##    if not ('sunperc' in data[k]):
+##        print k, "doesn't have sunperc"
+
+ReadNIWAFile("nz_avgtemp.csv","avgtemp")
+ReadNIWAFile("nz_maxtemp.csv","maxtemp")
+ReadNIWAFile("nz_mintemp.csv","mintemp")
 ReadNIWAFile("nz_raindays.csv","raindays")
 ReadNIWAFile("nz_rainfall.csv","rainfall")
 ReadNIWAFile("nz_sunhours.csv","sunhours")
