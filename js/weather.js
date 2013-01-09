@@ -33,9 +33,9 @@ for (var c in data) {
 		data[c]["raindays"]["imp"] = []; // ehh...
 		for (var i = 0; i < 12; i++) {
 			data[c]["rainfall"]["imp"][i] = data[c]["rainfall"]["met"][i]*0.0393701;
-			data[c]["avgtemp"]["imp"][i] = data[c]["avgtemp"]["met"][i]*9.0/5.0+32.0;
-			data[c]["mintemp"]["imp"][i] = data[c]["mintemp"]["met"][i]*9.0/5.0+32.0;
-			data[c]["maxtemp"]["imp"][i] = data[c]["maxtemp"]["met"][i]*9.0/5.0+32.0;
+			data[c]["avgtemp"]["imp"][i]  = data[c]["avgtemp"]["met"][i]*9.0/5.0+32.0;
+			data[c]["mintemp"]["imp"][i]  = data[c]["mintemp"]["met"][i]*9.0/5.0+32.0;
+			data[c]["maxtemp"]["imp"][i]  = data[c]["maxtemp"]["met"][i]*9.0/5.0+32.0;
 			data[c]["raindays"]["imp"][i] = data[c]["raindays"]["met"][i];
 		}
 	}

@@ -3,6 +3,8 @@
 
 countriesMode = 2; // 0 all, 1 same, 2 other
 
+seasonAdjust = false;
+
 function updateCities(opt, country, cities) {
 	opt.empty();
 	opt.select2('data', {id: null, text: null});
@@ -17,10 +19,66 @@ function updateCities(opt, country, cities) {
 	updateSortedList();
 }
 
+function addRow(longName,shortName,city1,city2) {
+	var t=""
+	t+= 	"<tr>";
+	t+= 		"<td colspan='13'>" + longName;
+	//if (mode=="met") t+=" (C)";
+	//if (mode=="imp") t+=" (F)";
+	t+= 		"</td>";
+	t+= 	"</tr>";
+	t+= 	"<tr>";
+	t+= 		"<td>" + city1 +' ['+data[city1]['country']+']' + "</td>";
+	for (var m = 0; m < 12; m++) {
+		var n = m;
+		if (seasonAdjust && data[city1]["country"]=="NZ") n = (m + 6) % 12;
+		t+= 	"<td width='7%'>"+data[city1][shortName][mode][n].toFixed(1)+"</td>";
+	}
+	t+= 	"</tr>";
+	t+= 	"<tr>";
+	t+= 		"<td>" + city2 +' ['+data[city2]['country']+']' + "</td>";
+	for (var m = 0; m < 12; m++) {
+		var n = m;
+		if (seasonAdjust && data[city2]["country"]=="NZ") n = (m + 6) % 12;
+		t+= 	"<td width='7%'>"+data[city2][shortName][mode][n].toFixed(1)+"</td>";
+	}
+	t+= 	"</tr>";
+	return t;
+}
+
 function updateSpecificCompare() {
 	var city1 = $("#primaryCity").val();
 	var city2 = $("#secondCity").val();
+	var d = $("#tables");
 	
+	var months = [];
+	if (!seasonAdjust) {
+		months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+	} else {
+		months = ["Wtr","Wtr","Spr","Spr","Spr","Sum","Sum","Sum","Fall","Fall","Fall","Wtr"];
+	}
+	
+	var t = "<br>";
+	
+	t+= "<table width='100%' border='1' style='text-align:center'>";
+	// Header
+	t+= 	"<thead>";
+	t+= 	"<tr>";
+	t+= 		"<td>&nbsp;</td>";
+	for (var m = 0; m < 12; m++) {
+		t+= 	"<td width='7%'>"+months[m]+"</td>";
+	}
+	t+= 	"</tr>";
+	t+= 	"</thead>";
+	
+	t+= addRow("Daily Mean Temperature","avgtemp",city1,city2);
+	t+= addRow("Daily Max Temperature","maxtemp",city1,city2);
+	t+= addRow("Daily Min Temperature","mintemp",city1,city2);
+	t+= addRow("Monthly Rainfall","rainfall",city1,city2);
+	t+= addRow("Number of Days it Rains","raindays",city1,city2);
+	
+	t+= "</table>"
+	d.html(t);
 }
 
 function updateSortedList() {
@@ -66,7 +124,7 @@ function updateSortedList() {
 		if (data[city1]["country"] == "NZ" && data[city2]["country"] == "NZ") {
 			errTxt += "+"+sun_weight.toFixed(0)+"x"+errorTable[city1][city2]["sunhours"].toFixed(0);
 		}
-		sortList.append("<li>"+errors[i][2]+" <span style='font-size: 60%'>("+errTxt+")</span></li>");
+		sortList.append(simCityHTML(errors[i][2],errTxt,false,city2));
 		
 		city2 = errors[i+1][1];
 		errTxt = errors[i+1][0].toFixed(0);
@@ -77,7 +135,7 @@ function updateSortedList() {
 		if (data[city1]["country"] == "NZ" && data[city2]["country"] == "NZ") {
 			errTxt += "+"+sun_weight.toFixed(0)+"x"+errorTable[city1][city2]["sunhours"].toFixed(0);
 		}
-		sortList.append("<li style='background-color: #EEEEEE'>"+errors[i+1][2]+" <span style='font-size: 60%'>("+errTxt+")</span></li>");
+		sortList.append(simCityHTML(errors[i+1][2],errTxt,true,city2));
 	}
 		
 	var ocities = $("#otherCities").select2("val");
@@ -117,7 +175,7 @@ function updateSortedList() {
 			if (data[city1]["country"] == "NZ" && data[city2]["country"] == "NZ") {
 				errTxt += "+"+sun_weight.toFixed(0)+"x"+errorTable[city1][city2]["sunhours"].toFixed(0);
 			}
-			specList.append("<li>"+specErrors[j][2]+" <span style='font-size: 80%'>("+errTxt+")</span></li>");
+			specList.append(simCityHTML(specErrors[j][2],errTxt,false,city2));
 			
 			city2 = specErrors[j+1][1];
 			errTxt = specErrors[j+1][0].toFixed(0);
@@ -128,7 +186,7 @@ function updateSortedList() {
 			if (data[city1]["country"] == "NZ" && data[city2]["country"] == "NZ") {
 				errTxt += "+"+sun_weight.toFixed(0)+"x"+errorTable[city1][city2]["sunhours"].toFixed(0);
 			}
-			specList.append("<li style='background-color: #EEEEEE'>"+specErrors[j+1][2]+" <span style='font-size: 80%'>("+errText+")</span></li>");
+			specList.append(simCityHTML(specErrors[j+1][2],errTxt,true,city2));
 		}
 	} else {
 		for (var j = 0; j < specErrors.length; j+=1) {
@@ -141,7 +199,33 @@ function updateSortedList() {
 			if (data[city1]["country"] == "NZ" && data[city2]["country"] == "NZ") {
 				errTxt += "+"+sun_weight.toFixed(0)+"x"+errorTable[city1][city2]["sunhours"].toFixed(0);
 			}
-			specList.append("<li>"+specErrors[j][2]+" <span style='font-size: 80%'>("+errTxt+")</span></li>");
+			specList.append(simCityHTML(specErrors[j][2],errTxt,false,city2));
 		}
 	}
+}
+
+function simCityHTML(fullName,errTxt,alt,shortName) {
+	var ret = "";
+	if (alt) {
+		ret = "<li style='background-color: #EEEEEE'>";
+	} else {
+		ret = "<li>";
+	}
+	ret += "<a href='#' onclick='getDetailsOf(this)' data-shortname='" + shortName + "'>";
+	ret += fullName + "</a>";
+	ret += " <span style='font-size: 60%'>("+errTxt+")</span>"
+	ret += "</li>";
+
+	return ret;
+}
+
+function getDetailsOf(ref) {
+	var city = ref.dataset["shortname"];
+	$("#secondCity").select2("val", city);
+	updateSpecificCompare();
+	$("#similar1").hide();
+	$("#similar2").hide();
+	$("#specific").show("fast");
+	$("#sim_btn").removeClass("active");
+	$("#comp_btn").addClass("active");
 }
