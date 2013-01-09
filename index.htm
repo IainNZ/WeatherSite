@@ -18,6 +18,20 @@
 	<link href="css/weather.css" rel="stylesheet" />
 	<script src="js/weather.js"></script>
 	<script src="js/interface.js"></script>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-33856541-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+</script>
+
 	<script>
 		$(document).ready(function() {
 			// Other countries
@@ -121,7 +135,7 @@
 	
 	<div class="hero-unit" style="padding: 10px; padding-left: 20px">
 		<h1>天気 Compare</h1>
-		<p><i><a href="http://jisho.org/words?jap=tenki&eng=&dict=edict">Tenki</a> Compare</i>: Easily find cities with similar weather</p>
+		<p><i><a href="http://jisho.org/words?jap=tenki&eng=&dict=edict">Tenki</a> Compare</i>: Easily find cities with similar weather.</p>
 	</div>
 	  
 	<div class="row">
@@ -190,6 +204,7 @@
 			<h3>Most similar cities:</h3>
 			<ol id="sortList">
 			</ol>
+			<span style="font-size: 80%">Click a city to see a detailed comparison.</span>
 		</div>
 	</div>
 	
@@ -225,7 +240,7 @@
 	
 	<hr style="margin-bottom: 0px">
   <div class="footer" style="text-align: right;">
-    <p>&copy; Iain Duning 2012 - <a href="http://www.iaindunning.com">http://www.iaindunning.com</a></p>
+    <p>&copy; Iain Duning 2012 - Find out more about this site at <a href="http://www.iaindunning.com/?p=101">http://www.iaindunning.com</a></p>
   </div>
 
 	</div> <!-- /container -->
