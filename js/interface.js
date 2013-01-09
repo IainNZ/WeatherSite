@@ -17,6 +17,12 @@ function updateCities(opt, country, cities) {
 	updateSortedList();
 }
 
+function updateSpecificCompare() {
+	var city1 = $("#primaryCity").val();
+	var city2 = $("#secondCity").val();
+	
+}
+
 function updateSortedList() {
 
 	var avg_weight = $("#avgSlider").slider("option", "value");

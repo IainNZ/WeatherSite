@@ -13,9 +13,6 @@
 	<!-- Select2 stuff -->
 	<link href="css/select2.css" rel="stylesheet" />
 	<script src="js/select2.js"></script>
-	<!-- Toggle buttons -->
-	<link href="css/bootstrap-toggle-buttons.css" rel="stylesheet" />
-	<script src="js/jquery.toggle.buttons.js"></script>
 	<!-- My stuff -->
 	<link href="css/weather.css" rel="stylesheet" />
 	<script src="js/weather.js"></script>
@@ -71,6 +68,16 @@
 				$("#similar1").hide();
 				$("#similar2").hide();
 				$("#specific").show("fast");
+			});
+			
+			$("#changeSystem").click(function() {
+				if (mode == "met") {
+					$("#changeSystem").html("Change to Metric");
+					mode = "imp";
+				} else {
+					$("#changeSystem").html("Change to Imperial");
+					mode = "met";
+				}
 			});
 			
 			$("#btnCountryAll"  ).click(function() { countriesMode = 0; updateSortedList(); });
@@ -172,14 +179,16 @@
 		</div>
 	</div>
   
-	<div class="row" id="specific" style="display: none">
-		<div class="span6">
-			<h3>Compare with</h3>
-			<select id="secondCity" style="width:300px"></select><br>
-		</div>
-		<div class="span6">
-			<br>
-			<ol id="zzz"></ol>
+	<div id="specific"  style="display: none">
+		<div class="row" id="specific">
+			<div class="span6">
+				<h3>Compare with</h3>
+				<select id="secondCity" style="width:300px"></select><br>
+			</div>
+			<div class="span6">
+				<h3>Options</h3>
+				<button type="button" class="btn" id="changeSystem">Change to Imperial</button>
+			</div>
 		</div>
 	</div>
 	
