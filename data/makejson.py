@@ -85,6 +85,11 @@ ReadNIWAFile("nz_mintemp.csv","mintemp")
 ReadNIWAFile("nz_raindays.csv","raindays")
 ReadNIWAFile("nz_rainfall.csv","rainfall")
 ReadNIWAFile("nz_sunhours.csv","sunhours")
+del data["Antarctica, Scott Base"]
+del data["Te Anau"]
+del data["Whangarei"]
+del data["Milford Sound"]
+del data["Manapouri"]
 
 import json
 f = open("data.json","w")

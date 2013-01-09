@@ -37,9 +37,9 @@
 			
 			// Sliders
 			$("#avgSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
-			$("#minSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
-			$("#maxSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
 			$("#pcpSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
+			$("#rdsSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
+			$("#sunSlider").slider({ min: 0, max: 100, value: 50, slide: function(event,ui) { updateSortedList(); } });
 			
 			// Add countries dynamically
 			var primCountry = $("#primaryCountry");
@@ -54,7 +54,9 @@
 			
 			// Start off with all cities
 			updateCities($("#primaryCity"), 'all', cities);
-			$("#primaryCity").select2();
+			updateCities($("#secondCity"), 'all', cities);
+			$("#primaryCity").val(["Auckland"]).select2();
+			$("#secondCity").val(["Boston, MA"]).select2();
 			$("#primaryCity").change( function() {
 				updateSortedList();
 			});
@@ -70,17 +72,19 @@
 				$("#similar2").hide();
 				$("#specific").show("fast");
 			});
-			$("#excludeSameCountry").toggleButtons({
-				onChange: function($el, status, e) { 
-					excludeSameCountry = status;
-					updateSortedList(); 
-				}
-			});
+			
+			$("#btnCountryAll"  ).click(function() { countriesMode = 0; updateSortedList(); });
+			$("#btnCountrySame" ).click(function() { countriesMode = 1; updateSortedList(); });
+			$("#btnCountryOther").click(function() { countriesMode = 2; updateSortedList(); });
+			
+			updateSortedList();
 		});
 	</script>
 </head>
 
 <body>
+
+
 	<div class="container">
 	
 	<div class="hero-unit" style="padding: 10px; padding-left: 20px">
@@ -110,7 +114,7 @@
 				<button id="sim_btn" class="btn btn-large btn-primary" style="width:300px">Find similar cities</button>
 			</div>
 			<div class="span6">
-				<button id="comp_btn" class="btn btn-large btn-primary" style="width:300px">Compare with specific cities</button>
+				<button id="comp_btn" class="btn btn-large btn-primary" style="width:300px">Compare with specific city</button>
 			</div>
 		</div>
 		</div>
@@ -125,25 +129,28 @@
 				<div class="span3" style="padding-top: 8px"><div id="avgSlider"></div></div>
 			</div>
 			<div class="row sliderRow zebra">
-				<div class="span3">Maximum Temperature</div>
-				<div class="span3" style="padding-top: 8px"><div id="maxSlider"></div></div>
-			</div>
-			<div class="row sliderRow">
-				<div class="span3">Minimum Temperature</div>
-				<div class="span3" style="padding-top: 8px"><div id="minSlider"></div></div>
-			</div>
-			<div class="row sliderRow zebra">
-				<div class="span3">Precipitation</div>
+				<div class="span3">Rainfall</div>
 				<div class="span3" style="padding-top: 8px"><div id="pcpSlider"></div></div>
 			</div>
 			<div class="row sliderRow">
-				<div class="span3"><b>Options:</b></div>
+				<div class="span3">Days it Rains</div>
+				<div class="span3" style="padding-top: 8px"><div id="rdsSlider"></div></div>
+			</div>
+			<div class="row sliderRow">
+				<div class="span3">Sunshine Hours</div>
+				<div class="span3" style="padding-top: 8px"><div id="sunSlider"></div></div>
+			</div>
+			<div class="row sliderRow">
+				<div class="span3"><b>Which countries?</b></div>
 				<div class="span3">&nbsp;</div>
 			</div>
 			<div class="row sliderRow zebra">
-				<div class="span4">Exclude same country:</div>
-				<div class="span2">
-					<div id="excludeSameCountry"><input type="checkbox" checked="checked"></div>
+				<div class="span6">
+					<div class="btn-group" data-toggle="buttons-radio">
+						<button type="button" id="btnCountryAll" class="btn btn-primary">All</button>
+						<button type="button" id="btnCountrySame" class="btn btn-primary">Only Same</button>
+						<button type="button" id="btnCountryOther" class="btn btn-primary active">Only Other</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -153,7 +160,7 @@
 			</ol>
 		</div>
 	</div>
-	<hr style="margin-bottom: 0px">
+	
 	<div class="row" id="similar2" style="display: none;">
 		<div class="span6">
 			<h3>Additional cities:</h3>
@@ -167,19 +174,20 @@
   
 	<div class="row" id="specific" style="display: none">
 		<div class="span6">
-			<h3>Select the cities you wish to compare with</h3>
-			<select id="otherCities" style="width: 100%" multiple></select><br>
+			<h3>Compare with</h3>
+			<select id="secondCity" style="width:300px"></select><br>
 		</div>
 		<div class="span6">
 			<br>
-			<ol id="xyz"></ol>
+			<ol id="zzz"></ol>
 		</div>
 	</div>
-  <!--
-  <div class="footer">
+	
+	<hr style="margin-bottom: 0px">
+  <div class="footer" style="text-align: right;">
     <p>&copy; Iain Duning 2012 - <a href="http://www.iaindunning.com">http://www.iaindunning.com</a></p>
   </div>
-	-->
+
 	</div> <!-- /container -->
 	
 	
