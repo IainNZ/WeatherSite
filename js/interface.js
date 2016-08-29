@@ -47,6 +47,7 @@ function addRow(longName,shortName,city1,city2) {
 }
 
 function updateSpecificCompare() {
+	drawGraph();
 	var city1 = $("#primaryCity").val();
 	var city2 = $("#secondCity").val();
 	var d = $("#tables");

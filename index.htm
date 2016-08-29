@@ -14,10 +14,13 @@
 	<!-- Select2 stuff -->
 	<link href="css/select2.css" rel="stylesheet" />
 	<script src="js/select2.js"></script>
+	<!-- D3 -->
+	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<!-- My stuff -->
 	<link href="css/weather.css" rel="stylesheet" />
 	<script src="js/weather.js"></script>
 	<script src="js/interface.js"></script>
+	<script src="js/graph.js"></script>
 	<script type="text/javascript">
 
 		var _gaq = _gaq || [];
@@ -229,6 +232,17 @@
 				<h3>Options</h3>
 				<button type="button" class="btn" id="changeSystem">Change to Imperial</button>
 				<button type="button" class="btn" id="changeSeason">Change to Seasons</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<svg id="graph" style="height:300px">
+					<g id="points">
+					
+					</g>
+					<text x="50" y="50" id="city1name" fill="blue">Boston</text>
+					<text x="50" y="100" id="city2name" fill="red">Auckland</text>
+				</svg>
 			</div>
 		</div>
 		<div class="row">
